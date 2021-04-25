@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Maria"
+    },
+    {
+      "id": 3,
+      "name": "Gabriel"
+    },
+    {
+      "id": 6,
+      "name": "Marcia"
+    },
+    {
+      "id": 7,
+      "name": "Ronaldo"
+    },
+    {
+      "id": 8,
+      "name": "Clayton"
+    },
+    {
+      "id": 9,
+      "name": "Renata"
+    }
+  ]
+}
