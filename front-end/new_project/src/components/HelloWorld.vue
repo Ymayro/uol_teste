@@ -1,11 +1,13 @@
 <template>
   <div class="wrapper">
     <h3>Usuários</h3>
-    <input type="text" v-model="user"/>
+    Nome<input type="text" v-model="user"/>
     <button type="button" @click="setUser">Inserir</button>
-    <ul>
-      <li>{{name}}</li>
-      <button type="button" @click="getUsers">Excluir</button>
+    <ul >
+      <div v-for="(user, index) in userList" :key="index"> 
+      <li>{{user.name}}</li>
+      <button type="button" @click="deleteUser(user.id)">Excluir</button>
+      </div>
     </ul>  
   </div>
 </template>
@@ -20,27 +22,46 @@ export default {
   },
   data() {
     return {
-      name: 'my name',
       user: null,
       userList: []
     }
   },
   methods: {
     getUsers(){
-      console.log('users')
-      axios.get('/user?ID=12345')
-      .then(function (response) {
-        console.log(response);
+      axios.get('/users')
+      .then((response) => {
+        this.userList = response.data
+      }).catch(e => {
+        this.userList = e
+      })
+    },
+    setUser(){
+      let newId = this.userList[this.userList.length - 1].id + 1
+      let data = {
+        id: newId,
+        name: this.user
+      }
+      axios.post('/users', data)
+      .then((response) => {
+        console.log(response.data)
+        this.getUsers()
+        this.user = null
       }).catch(e => {
         console.log(e)
       })
     },
-    setUser(){
-
-    },
-    deleteUser(){
-
+    deleteUser(id){
+      axios.delete('/users/' + id)
+      .then((response) => {
+        console.log(response.data);
+        this.getUsers()
+      }).catch(e => {
+        console.log(e)
+      })
     }
+  },
+  beforeMount(){
+    this.getUsers()
   }
 }
 </script>
@@ -49,7 +70,12 @@ export default {
 <style scoped>
 
 .wrapper{
-  background-color: #42b983;
-
+  background-color: #0FE6F4;
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  overflow-y: scroll;
+  top: 10%;
+  left: 15%;
 }
 </style>
